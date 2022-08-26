@@ -3450,14 +3450,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_allCandies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/allCandies */ "./app/components/allCandies.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_allCandies__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/allCandies */ "./app/components/allCandies.js");
+
 
 
 
 const Root = () => {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("nav", null, "Goodie Bag"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Welcome to the Goodie Bag!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "What a nice home page for your goodies!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_allCandies__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+  const [candies, setCandies] = react__WEBPACK_IMPORTED_MODULE_1___default().useState([]);
+  react__WEBPACK_IMPORTED_MODULE_1___default().useEffect(() => {
+    async function getCandies() {
+      try {
+        const {
+          data
+        } = await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/candies');
+        setCandies(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    getCandies();
+  }, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("nav", null, "Goodie Bag"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("h1", null, "Welcome to the Goodie Bag!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement("p", null, "What a nice home page for your goodies!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default().createElement(_components_allCandies__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    props: candies
+  })));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Root);
@@ -3482,19 +3502,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function allCandies() {
-  const candies = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.candies);
-  console.log(candies); // return (
-  //     // <div>
-  //     //     {candies.map((candy) => {
-  //     //         return <div>
-  //     //             <h3>Candy Name: {candy.name}</h3>
-  //     //             <p>Description: {candy.description}</p>
-  //     //             <p>Quantity: {candy.quantity}</p>
-  //     //             <img src={candy.imageUrl} />
-  //     //         </div>
-  //     //     })}
-  //     // </div>
-  // )
+  const candies = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.candies.data);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log(candies), candies.map(candy => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      key: candy.id
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h3", null, "Candy Name: ", candy.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Description: ", candy.description), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Quantity: ", candy.quantity), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
+      src: candy.imageUrl
+    }));
+  }));
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (allCandies);
@@ -3514,20 +3529,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+ // import { createSlice } from '@reduxjs/toolkit'
+// const dispatch = useDispatch();
+// const initialState = {
+//         data: [],
+//     }
+// export const candiesSlice = createSlice({
+//     name: 'candies',
+//     initialState,
+//     reducers: {
+//         setCandies: (state, action) => {
+//             state.data = action
+//         }
+//     }
+// })
+// export function setCandies() {
+//     return async (dispatch) => {
+//         axios.get('api/candies').then(res => dispatch(setCandies(res.data)))
+//         .catch(err => console.log(err))
+//     }
+// }
+// setCandies()
 
 const initialState = {
   data: []
 };
 
-async function allCandiesGet() {
-  await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/candies').then(res => {
-    initialState.data = res.data;
-  });
-}
-
-allCandiesGet();
-
 const candiesReducer = (state = initialState, action) => {
+  async function allCandiesGet() {
+    await axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/candies').then(res => {
+      state.data = res.data;
+    });
+  }
+
+  allCandiesGet();
   return state;
 };
 
